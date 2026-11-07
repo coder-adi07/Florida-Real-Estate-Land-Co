@@ -254,7 +254,7 @@ export default function Hero() {
 
               <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.08] tracking-tight text-white mb-4 sm:mb-5 drop-shadow-md">
                 Find Your Place in{' '}
-                <span className="italic font-light text-brand-gold">Central Florida</span>.
+                <span className="text-brand-gold font-medium">Central Florida</span>.
               </h1>
 
               <p className="text-xs sm:text-sm md:text-base text-zinc-200 font-light leading-relaxed max-w-xl mb-6 line-clamp-3 sm:line-clamp-none drop-shadow">

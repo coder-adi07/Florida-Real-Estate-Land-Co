@@ -1,11 +1,11 @@
-import { Playfair_Display, Lato } from 'next/font/google';
+import { Questrial, Lato } from 'next/font/google';
 import './globals.css';
 
-const playfair = Playfair_Display({
+const questrial = Questrial({
   subsets: ['latin'],
   variable: '--font-editorial',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400'],
 });
 
 const lato = Lato({
@@ -79,7 +79,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
+    <html lang="en" className={`${questrial.variable} ${lato.variable}`}>
       <body className="bg-brand-black text-brand-cream font-sans antialiased selection:bg-brand-bronze selection:text-white">
         {children}
       </body>

@@ -123,7 +123,7 @@ export default function CompanyIntro() {
 
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight mb-6">
               A Century of Combined Expertise.{' '}
-              <span className="italic text-brand-gold">One Singular Focus</span>: Your Success.
+              <span className="text-brand-gold font-medium">One Singular Focus</span>: Your Success.
             </h2>
 
             <div className="space-y-4 text-zinc-300 font-light leading-relaxed mb-8">

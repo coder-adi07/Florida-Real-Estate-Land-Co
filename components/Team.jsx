@@ -201,7 +201,7 @@ export default function Team() {
               <span>Full-Time Professional Directory</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-              Meet Our Real Estate Team &amp; <span className="italic text-brand-gold">Associates</span>
+              Meet Our Real Estate Team &amp; <span className="text-brand-gold font-medium">Associates</span>
             </h2>
             <p className="text-zinc-400 text-sm mt-2 max-w-2xl font-light">
               Over 100 years of combined real estate experience. Dedicated full-time licensed Florida Realtors with verifiable track records and authentic passion for Central Florida.

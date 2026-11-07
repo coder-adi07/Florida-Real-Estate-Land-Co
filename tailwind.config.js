@@ -24,7 +24,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        serif: ['var(--font-editorial)', 'Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
+        editorial: ['var(--font-editorial)', 'Questrial', 'sans-serif'],
+        serif: ['var(--font-editorial)', 'Questrial', 'sans-serif'],
         sans: ['var(--font-lato)', 'Lato', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       letterSpacing: {

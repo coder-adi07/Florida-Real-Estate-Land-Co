@@ -118,7 +118,7 @@ export default function FeaturedProperties() {
               <span>Curated Portfolio</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-              Featured Properties &amp; <span className="italic text-brand-gold">Verified Listings</span>
+              Featured Properties &amp; <span className="text-brand-gold font-medium">Verified Listings</span>
             </h2>
             <p className="text-zinc-400 text-sm mt-2 max-w-xl">
               Authentic properties actively marketed by Florida Real Estate &amp; Land Co. across Central Florida MLS databases.

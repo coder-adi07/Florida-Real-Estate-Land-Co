@@ -85,7 +85,7 @@ export default function Testimonials() {
             <span>Verifiable Client Testimonials</span>
           </div>
           <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-            Trusted by Central Florida <span className="italic text-brand-gold">Homeowners &amp; Investors</span>
+            Trusted by Central Florida <span className="text-brand-gold font-medium">Homeowners &amp; Investors</span>
           </h2>
           <p className="text-zinc-400 text-sm mt-3 font-light">
             Genuine words from clients who have bought, sold, leased, and invested alongside our brokerage since 2000.
@@ -141,7 +141,7 @@ export default function Testimonials() {
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
               >
-                <p className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-zinc-100 leading-snug italic">
+                <p className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-zinc-100 leading-snug">
                   &ldquo;{current.quote}&rdquo;
                 </p>
               </motion.div>

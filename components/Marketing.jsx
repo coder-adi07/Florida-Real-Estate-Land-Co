@@ -48,7 +48,7 @@ export default function Marketing() {
               <span>Signature Marketing Division</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-              Pioneering Real Estate Marketing <span className="italic text-brand-gold">Since 2000</span>
+              Pioneering Real Estate Marketing <span className="text-brand-gold font-medium">Since 2000</span>
             </h2>
             <p className="text-zinc-400 text-sm mt-2 max-w-xl font-light">
               We create compelling print, video, and online advertising campaigns designed to command attention and achieve maximum market valuation.

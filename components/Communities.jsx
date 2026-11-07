@@ -104,7 +104,7 @@ export default function Communities() {
               <span>Geographic Specialization</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-              Explore Central Florida &amp; <span className="italic text-brand-gold">Coastal Communities</span>
+              Explore Central Florida &amp; <span className="text-brand-gold font-medium">Coastal Communities</span>
             </h2>
             <p className="text-zinc-400 text-sm mt-2 max-w-xl font-light">
               Authentic neighborhoods served by our veteran Realtors with deep local zoning, school district, and valuation expertise.
@@ -167,7 +167,7 @@ export default function Communities() {
                   <h3 className="font-editorial text-2xl text-white font-medium mb-1 group-hover:text-brand-gold transition-colors">
                     {comm.name}
                   </h3>
-                  <div className="text-xs text-zinc-400 font-light italic mb-4">
+                  <div className="text-xs text-zinc-400 font-light mb-4">
                     {comm.tagline}
                   </div>
 

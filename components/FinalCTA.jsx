@@ -28,7 +28,7 @@ export default function FinalCTA() {
 
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white leading-tight mb-6">
               Ready to Experience Central Florida Real Estate at{' '}
-              <span className="italic text-brand-gold">Its Highest Level</span>?
+              <span className="text-brand-gold font-medium">Its Highest Level</span>?
             </h2>
 
             <p className="text-zinc-300 text-sm sm:text-base font-light leading-relaxed mb-8">

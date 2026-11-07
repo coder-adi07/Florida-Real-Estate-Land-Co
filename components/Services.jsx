@@ -21,7 +21,7 @@ export default function Services() {
             <span>Brokerage Capabilities</span>
           </div>
           <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-            Buy, Sell, Rent &amp; <span className="italic text-brand-gold">Invest with Authority</span>
+            Buy, Sell, Rent &amp; <span className="text-brand-gold font-medium">Invest with Authority</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base font-light mt-3">
             Four specialized real estate divisions engineered to guide private buyers, property sellers, corporate tenants, and institutional land investors.

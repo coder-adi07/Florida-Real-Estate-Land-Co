@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
               <span>Authentic Distinction</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-              Why Central Florida Homeowners &amp; <span className="italic text-brand-gold">Investors Choose Us</span>
+              Why Central Florida Homeowners &amp; <span className="text-brand-gold font-medium">Investors Choose Us</span>
             </h2>
           </div>
           <div className="lg:col-span-4 lg:text-right">
