@@ -48,15 +48,23 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           {/* Brand Col (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="#" className="inline-block">
-              <div className="relative h-14 w-44 sm:h-16 sm:w-52">
+            <Link href="#" className="flex items-center gap-3 group">
+              <div className="relative h-14 w-14 flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src="/assets/brand/logo/official-logo.png"
+                  src="/assets/brand/logo/logo.png"
                   alt="Florida Real Estate & Land Co."
                   fill
-                  className="object-contain object-left"
-                  sizes="(max-width: 640px) 180px, 220px"
+                  className="object-contain"
+                  sizes="56px"
                 />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-editorial text-lg font-medium text-white group-hover:text-brand-gold transition-colors leading-tight">
+                  Florida Real Estate
+                </span>
+                <span className="text-xs uppercase tracking-[0.25em] text-brand-gold font-light leading-none">
+                  &amp; Land Co.
+                </span>
               </div>
             </Link>
 

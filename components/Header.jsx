@@ -188,19 +188,27 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between min-h-[48px]">
-            {/* Official Company Logo - Sleek, Crisp & Slim Navbar Proportions */}
+            {/* Official Company Logo - Authentic Original Website Logo */}
             <div className="flex-shrink-0 z-10">
-              <Link href="#" className="flex items-center group py-0.5">
-                <div className="relative h-10 w-32 sm:h-11 sm:w-36 md:h-12 md:w-40 lg:h-12 lg:w-40 xl:h-13 xl:w-44 transition-transform duration-300 group-hover:scale-[1.02]">
+              <Link href="#" className="flex items-center gap-2.5 sm:gap-3 group py-0.5">
+                <div className="relative h-10 w-10 sm:h-12 sm:w-12 transition-transform duration-300 group-hover:scale-105 flex-shrink-0">
                   <Image
-                    src="/assets/brand/logo/official-logo.png"
+                    src="/assets/brand/logo/logo.png"
                     alt="Florida Real Estate & Land Co."
                     fill
                     priority
                     quality={100}
-                    className="object-contain object-left"
-                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 180px, 200px"
+                    className="object-contain"
+                    sizes="48px"
                   />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-editorial text-sm sm:text-base font-medium tracking-wide text-white group-hover:text-brand-gold transition-colors leading-tight">
+                    Florida Real Estate
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-brand-gold font-light leading-none">
+                    &amp; Land Co.
+                  </span>
                 </div>
               </Link>
             </div>
