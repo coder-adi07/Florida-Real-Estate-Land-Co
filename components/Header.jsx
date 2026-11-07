@@ -181,16 +181,16 @@ export default function Header() {
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 ${
           scrolled
-            ? 'bg-[#0a0908]/95 backdrop-blur-md border-b border-brand-bronze/30 py-2.5 sm:py-3 shadow-2xl'
-            : 'bg-[#090909]/90 backdrop-blur-sm border-b border-white/5 py-3 sm:py-4'
+            ? 'bg-[#0a0908]/95 backdrop-blur-md border-b border-brand-bronze/30 py-2 shadow-2xl'
+            : 'bg-[#090909]/90 backdrop-blur-sm border-b border-white/5 py-2.5 sm:py-3'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between min-h-[52px]">
-            {/* Official Company Logo - Made Prominently Larger */}
+          <div className="relative flex items-center justify-between min-h-[48px]">
+            {/* Official Company Logo - Sleek, Crisp & Slim Navbar Proportions */}
             <div className="flex-shrink-0 z-10">
-              <Link href="#" className="flex items-center group py-1">
-                <div className="relative h-13 w-44 sm:h-15 sm:w-52 md:h-16 md:w-56 lg:h-[70px] lg:w-[230px] xl:h-[82px] xl:w-[270px] transition-transform duration-300 group-hover:scale-[1.03]">
+              <Link href="#" className="flex items-center group py-0.5">
+                <div className="relative h-10 w-32 sm:h-11 sm:w-36 md:h-12 md:w-40 lg:h-12 lg:w-40 xl:h-13 xl:w-44 transition-transform duration-300 group-hover:scale-[1.02]">
                   <Image
                     src="/assets/brand/logo/official-logo.png"
                     alt="Florida Real Estate & Land Co."
@@ -198,7 +198,7 @@ export default function Header() {
                     priority
                     quality={100}
                     className="object-contain object-left"
-                    sizes="(max-width: 640px) 180px, (max-width: 1024px) 240px, 300px"
+                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 180px, 200px"
                   />
                 </div>
               </Link>
