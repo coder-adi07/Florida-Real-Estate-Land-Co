@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Quote, ChevronLeft, ChevronRight, Star, CheckCircle, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Quote, ChevronLeft, ChevronRight, Star, CheckCircle, ExternalLink, Sparkles } from 'lucide-react';
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,7 +73,13 @@ export default function Testimonials() {
     <section className="py-24 bg-[#0a0908] border-t border-brand-bronze/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-3">
             <Quote size={13} className="text-brand-gold" />
             <span>Verifiable Client Testimonials</span>
@@ -83,10 +90,16 @@ export default function Testimonials() {
           <p className="text-zinc-400 text-sm mt-3 font-light">
             Genuine words from clients who have bought, sold, leased, and invested alongside our brokerage since 2000.
           </p>
-        </div>
+        </motion.div>
 
         {/* Featured Testimonial Hero Stage */}
-        <div className="max-w-4xl mx-auto bg-[#141210] border border-brand-bronze/40 rounded-sm p-8 sm:p-12 shadow-2xl relative">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="max-w-4xl mx-auto bg-[#141210] border border-brand-bronze/40 rounded-sm p-8 sm:p-12 shadow-2xl relative"
+        >
           <div className="flex items-center justify-between mb-8 pb-6 border-b border-brand-bronze/20">
             <div className="flex items-center gap-1 text-brand-gold">
               {[...Array(current.rating)].map((_, i) => (
@@ -99,7 +112,7 @@ export default function Testimonials() {
               <button
                 type="button"
                 onClick={prevTestimonial}
-                className="p-2.5 rounded-sm bg-[#1e1c19] text-zinc-300 hover:text-white hover:bg-brand-bronze/30 border border-brand-bronze/30 transition-colors"
+                className="p-2.5 rounded-sm bg-[#1e1c19] text-zinc-300 hover:text-white hover:bg-brand-bronze/30 border border-brand-bronze/30 transition-colors cursor-pointer"
                 aria-label="Previous review"
               >
                 <ChevronLeft size={18} />
@@ -110,7 +123,7 @@ export default function Testimonials() {
               <button
                 type="button"
                 onClick={nextTestimonial}
-                className="p-2.5 rounded-sm bg-[#1e1c19] text-zinc-300 hover:text-white hover:bg-brand-bronze/30 border border-brand-bronze/30 transition-colors"
+                className="p-2.5 rounded-sm bg-[#1e1c19] text-zinc-300 hover:text-white hover:bg-brand-bronze/30 border border-brand-bronze/30 transition-colors cursor-pointer"
                 aria-label="Next review"
               >
                 <ChevronRight size={18} />
@@ -118,30 +131,64 @@ export default function Testimonials() {
             </div>
           </div>
 
-          {/* Testimonial Quote */}
-          <div className="min-h-[160px] flex flex-col justify-center mb-8">
-            <p className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-zinc-100 leading-snug italic">
-              &ldquo;{current.quote}&rdquo;
-            </p>
+          {/* Testimonial Quote Animated with AnimatePresence */}
+          <div className="min-h-[160px] flex flex-col justify-center mb-8 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+              >
+                <p className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-zinc-100 leading-snug italic">
+                  &ldquo;{current.quote}&rdquo;
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Author Details */}
-          <div className="pt-6 border-t border-brand-bronze/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="text-base font-medium text-white flex items-center gap-2">
-                <span>{current.author}</span>
-                <CheckCircle size={14} className="text-brand-gold" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="pt-6 border-t border-brand-bronze/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              <div>
+                <div className="text-base font-medium text-white flex items-center gap-2">
+                  <span>{current.author}</span>
+                  <CheckCircle size={14} className="text-brand-gold" />
+                </div>
+                <div className="text-xs text-zinc-400 font-light mt-0.5">
+                  {current.context}
+                </div>
               </div>
-              <div className="text-xs text-zinc-400 font-light mt-0.5">
-                {current.context}
-              </div>
-            </div>
 
-            <div className="inline-flex items-center px-3 py-1.5 rounded-sm bg-[#1c1a17] border border-brand-bronze/30 text-xs text-brand-gold font-mono">
-              <span>Represented by: {current.agentMentioned}</span>
-            </div>
+              <div className="inline-flex items-center px-3 py-1.5 rounded-sm bg-[#1c1a17] border border-brand-bronze/30 text-xs text-brand-gold font-mono">
+                <span>Represented by: {current.agentMentioned}</span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Dots Indicator */}
+          <div className="flex items-center justify-center gap-2 mt-8 pt-4 border-t border-white/5">
+            {reviews.map((_, dotIdx) => (
+              <button
+                key={dotIdx}
+                type="button"
+                onClick={() => setCurrentIndex(dotIdx)}
+                className={`w-2.5 h-1.5 rounded-full transition-all duration-300 ${
+                  currentIndex === dotIdx ? 'w-6 bg-brand-gold' : 'bg-zinc-700 hover:bg-zinc-500'
+                }`}
+                aria-label={`Go to slide ${dotIdx + 1}`}
+              />
+            ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Small Review Strip */}
         <div className="mt-12 text-center">
@@ -159,4 +206,3 @@ export default function Testimonials() {
     </section>
   );
 }
-

@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { ShieldCheck, Award, Eye, FileText, Compass, Clock, Check, Sparkles } from 'lucide-react';
 
 export default function WhyChooseUs() {
@@ -46,7 +47,13 @@ export default function WhyChooseUs() {
     <section className="py-24 bg-[#0c0b0a] border-t border-brand-bronze/20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16 pb-8 border-b border-brand-bronze/20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16 pb-8 border-b border-brand-bronze/20"
+        >
           <div className="lg:col-span-8">
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-2">
               <Sparkles size={14} className="text-brand-gold" />
@@ -61,14 +68,19 @@ export default function WhyChooseUs() {
               Founded in 2000 with a steadfast commitment to high-touch advocacy, unmatched market longevity, and authentic Florida roots.
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Asymmetric Editorial Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {differentiators.map((diff) => (
-            <div
+          {differentiators.map((diff, i) => (
+            <motion.div
               key={diff.num}
-              className="bg-[#121110] border border-brand-bronze/25 rounded-sm p-6 sm:p-8 flex flex-col justify-between hover:border-brand-gold/60 transition-all duration-300 shadow-xl group relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              whileHover={{ y: -4, borderColor: 'rgba(218, 166, 116, 0.6)' }}
+              className="bg-[#121110] border border-brand-bronze/25 rounded-sm p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 shadow-xl group relative overflow-hidden"
             >
               {/* Giant numeral watermark */}
               <div className="absolute top-2 right-4 font-editorial text-6xl text-white/[0.03] select-none group-hover:text-brand-gold/[0.08] transition-colors">
@@ -91,11 +103,10 @@ export default function WhyChooseUs() {
                 <span className="font-mono text-brand-gold/80">Pillar {diff.num}</span>
                 <span className="text-zinc-500">Verified Standard</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
 }
-
