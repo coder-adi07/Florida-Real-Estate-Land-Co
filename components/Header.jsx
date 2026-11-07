@@ -187,16 +187,17 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Authentic Company Logo */}
-            <Link href="#" className="flex items-center flex-shrink-0 group">
-              <div className="relative h-10 w-36 sm:h-12 sm:w-44 md:h-14 md:w-52 transition-transform duration-300 group-hover:scale-[1.02]">
+            {/* Official Company Logo - Authentic Florida Real Estate & Land Co. */}
+            <Link href="#" className="flex items-center flex-shrink-0 group py-1">
+              <div className="relative h-8 w-52 sm:h-10 sm:w-64 md:h-11 md:w-72 lg:h-12 lg:w-80 xl:h-13 xl:w-92 transition-transform duration-300 group-hover:scale-[1.01]">
                 <Image
-                  src="/assets/brand/logo/logo.png"
-                  alt="Florida Real Estate & Land Co. - Orlando Sales Club"
+                  src="/assets/brand/logo/official-logo.png"
+                  alt="Florida Real Estate & Land Co."
                   fill
                   priority
+                  quality={100}
                   className="object-contain object-left"
-                  sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 208px"
+                  sizes="(max-width: 640px) 210px, (max-width: 1024px) 290px, 370px"
                 />
               </div>
             </Link>
@@ -326,10 +327,18 @@ export default function Header() {
 
         {/* Full-Screen Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[57px] sm:top-[65px] bottom-0 z-50 bg-[#0c0b0a]/98 backdrop-blur-2xl border-t border-brand-bronze/30 overflow-y-auto animate-in fade-in duration-200">
-            <div className="px-4 sm:px-6 py-6 flex flex-col justify-between min-h-full max-w-md mx-auto">
-              {/* Nav Items List */}
+          <div className="lg:hidden fixed inset-x-0 top-[52px] sm:top-[60px] bottom-0 z-50 bg-[#0c0b0a]/98 backdrop-blur-2xl border-t border-brand-bronze/30 overflow-y-auto animate-in fade-in duration-200">
+            <div className="px-4 sm:px-6 py-5 flex flex-col justify-between min-h-full max-w-md mx-auto">
+              {/* Drawer Top Branding */}
               <div className="space-y-3">
+                <div className="relative h-9 w-60 mb-2">
+                  <Image
+                    src="/assets/brand/logo/official-logo.png"
+                    alt="Florida Real Estate & Land Co."
+                    fill
+                    className="object-contain object-left"
+                  />
+                </div>
                 <div className="text-[10px] uppercase font-bold tracking-widest text-brand-gold/70 pb-1 border-b border-white/10">
                   Navigation Menu
                 </div>
