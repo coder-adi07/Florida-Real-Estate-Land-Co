@@ -1,57 +1,176 @@
 'use client';
 
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Award, Compass, Play, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Bed,
+  Bath,
+  Square,
+  MapPin,
+  ArrowUpRight,
+  Sparkles,
+  Award,
+  Compass,
+  Mouse,
+  Phone,
+  Layers,
+} from 'lucide-react';
 import PropertySearch from './PropertySearch';
 
+// 5 Authentic properties directly from Florida Real Estate & Land Co. / Stellar MLS
+const HERO_PROPERTIES = [
+  {
+    id: 1,
+    title: 'Waterway Passage Luxury Residence',
+    address: '9572 Waterway Passage Drive, Winter Garden, FL 34787',
+    subdivision: 'Waterway Passage Enclave',
+    price: '$840,000',
+    type: 'Single Family Luxury',
+    beds: '4 Beds',
+    baths: '3.5 Baths',
+    sqft: '3,240 Sq Ft',
+    image: '/assets/properties/featured/9572-waterway-passage.jpg',
+    tag: 'Signature Listing',
+    mlsId: 'MFR800521571',
+    description: 'Contemporary architectural elegance in sought-after Winter Garden near Hamlin and Horizon West.',
+  },
+  {
+    id: 2,
+    title: 'Historic Character Estate & Grounds',
+    address: '1305 E Baker Street, Plant City, FL 33563',
+    subdivision: 'Historic Heritage Acreage',
+    price: '$675,000',
+    type: 'Estate / Character Property',
+    beds: '4 Beds',
+    baths: '3 Baths',
+    sqft: '2,980 Sq Ft',
+    image: '/assets/properties/featured/1305-e-baker-st.jpg',
+    tag: 'Prime Heritage',
+    mlsId: 'MFR782168898',
+    description: 'Rare architectural stature with expansive private grounds, vintage craftsmanship, and I-4 corridor connectivity.',
+  },
+  {
+    id: 3,
+    title: 'Lake Nona Golf Enclave Residence',
+    address: '10520 Belfry Cir, Orlando, FL 32832',
+    subdivision: 'Fairway Glen at North Shore',
+    price: '$495,000',
+    type: 'Golf & Country Enclave',
+    beds: '3 Beds',
+    baths: '2.5 Baths',
+    sqft: '2,150 Sq Ft',
+    image: '/assets/properties/featured/10520-belfry-cir.jpg',
+    tag: 'Lake Nona Corridor',
+    mlsId: 'MFR813891695',
+    description: 'Prime golf course community minutes from Lake Nona Medical City, USTA Campus, and airport expressways.',
+  },
+  {
+    id: 4,
+    title: 'Mt. Vernon Suburban Sanctuary',
+    address: '3880 Mt Vernon Way, Kissimmee, FL 34741',
+    subdivision: 'Mt. Vernon Estates',
+    price: '$525,000',
+    type: 'Residential Single Family',
+    beds: '4 Beds',
+    baths: '3 Baths',
+    sqft: '2,420 Sq Ft',
+    image: '/assets/properties/featured/3880-mt-vernon-way.jpg',
+    tag: 'Private Pool Lanai',
+    mlsId: 'MFR812590484',
+    description: 'Immaculately maintained pool home with screened outdoor Florida lanai and low HOA convenience.',
+  },
+  {
+    id: 5,
+    title: 'Matchlock Executive Lease Residence',
+    address: '10224 Matchlock Drive, Orlando, FL 32821',
+    subdivision: 'Prime Orlando Corridor',
+    price: '$2,100 / mo',
+    type: 'Executive Rental',
+    beds: '3 Beds',
+    baths: '2 Baths',
+    sqft: '1,840 Sq Ft',
+    image: '/assets/properties/featured/10224-matchlock-dr.jpg',
+    tag: 'Orlando Rentals Division',
+    mlsId: 'MFR814356001',
+    description: 'Professional property management representation by Florida Real Estate & Land Co. with turnkey comfort.',
+  },
+];
+
 export default function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isWheelLocked, setIsWheelLocked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const heroRef = useRef(null);
+
+  const total = HERO_PROPERTIES.length;
+  const current = HERO_PROPERTIES[currentIndex];
+
+  // Navigate to next or previous property
+  const goToNext = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const goToPrev = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  const selectIndex = (index) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
+  // Mouse wheel scroll handler:
+  // When scrolling down inside the hero area, advance slide; when scrolling up, go back!
+  const handleWheel = useCallback(
+    (e) => {
+      // Only capture if delta is significant and not in a cooldown
+      if (Math.abs(e.deltaY) < 30 || isWheelLocked) return;
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+      // Lock wheel for 550ms to prevent rapid over-cycling
+      setIsWheelLocked(true);
+      setTimeout(() => setIsWheelLocked(false), 550);
+
+      if (e.deltaY > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
     },
-  };
+    [isWheelLocked, goToNext, goToPrev]
+  );
+
+  // Subtle auto-advance when user is not actively hovering
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      goToNext();
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [isHovered, goToNext]);
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-between pt-8 pb-16 overflow-hidden bg-brand-black">
-      {/* Background Architectural Glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-bronze/10 rounded-full blur-[140px] pointer-events-none -mr-40 -mt-40" />
-      <div className="absolute bottom-20 left-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px] pointer-events-none -ml-40" />
+    <section
+      ref={heroRef}
+      onWheel={handleWheel}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative min-h-[94vh] flex flex-col justify-between pt-4 pb-12 overflow-hidden bg-[#090807] select-none"
+    >
+      {/* Background Architectural Ambient Glows */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-bronze/15 rounded-full blur-[150px] pointer-events-none -mr-40 -mt-40 z-0" />
+      <div className="absolute bottom-20 left-0 w-[500px] h-[500px] bg-brand-gold/10 rounded-full blur-[140px] pointer-events-none -ml-40 z-0" />
 
-      {/* Main Hero Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
-        {/* Top Editorial Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-bronze/20 pb-4 mb-8"
-        >
+      {/* Top Advisory Strip */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-brand-bronze/20 pb-3">
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-bronze/15 border border-brand-bronze/30 text-[11px] uppercase tracking-widest text-brand-gold font-medium">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-bronze/20 border border-brand-bronze/40 text-[11px] uppercase tracking-widest text-brand-gold font-medium">
               <Sparkles size={12} className="text-brand-gold" />
               Florida Real Estate &amp; Land Co.
             </span>
@@ -63,182 +182,239 @@ export default function Hero() {
           <div className="flex items-center gap-6 text-xs text-zinc-400">
             <div className="flex items-center gap-1.5">
               <Award size={14} className="text-brand-gold" />
-              <span>100+ Years Combined Experience</span>
+              <span>100+ Years Combined Acumen</span>
             </div>
             <div className="hidden md:flex items-center gap-1.5">
               <Compass size={14} className="text-brand-gold" />
               <span>Stellar MLS &amp; MFRMLS Certified</span>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Asymmetric Hero Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12">
-          {/* Left Column: Editorial Headline & Copy (7 cols) */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="lg:col-span-7 flex flex-col justify-center"
-          >
-            <motion.span variants={itemVariants} className="text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-3">
-              Central Florida &amp; Coastal Luxury Brokerage
-            </motion.span>
-
-            <motion.h1 variants={itemVariants} className="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-white mb-6">
-              Find Your Place in{' '}
-              <span className="italic font-light text-brand-gold">Central Florida</span>.
-            </motion.h1>
-
-            <motion.p variants={itemVariants} className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mb-8">
-              A seasoned collective of dedicated, full-time Realtors with over a century of combined experience. 
-              We curate extraordinary residential retreats, waterfront sanctuaries, and strategic Florida land investments with tailored personal representation.
-            </motion.p>
-
-            {/* CTAs and Direct Credentials */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 w-full max-w-xl">
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="#properties"
-                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze text-white text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-300 shadow-xl hover:shadow-brand-gold/20 flex items-center justify-center gap-2 text-center"
-              >
-                <span>Explore Properties</span>
-                <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </motion.a>
-
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="#team"
-                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 bg-[#171513] hover:bg-[#221f1c] text-brand-cream border border-brand-bronze/40 hover:border-brand-gold text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-200 text-center justify-center"
-              >
-                Meet Our Realtors
-              </motion.a>
-
-              <a
-                href="tel:+14074253553"
-                className="text-xs text-brand-gold/90 hover:text-white uppercase tracking-wider font-medium flex items-center justify-center sm:justify-start gap-1.5 py-1 sm:py-0 sm:ml-2"
-              >
-                <span>Call Broker: +1 407-425-3553</span>
-              </a>
+      {/* Main Interactive Stage: Full Panoramic Visual with Editorial Overlay */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 flex-1 flex flex-col justify-between">
+        {/* Stage Wrapper */}
+        <div className="relative w-full rounded-md overflow-hidden border border-brand-bronze/30 shadow-[0_30px_90px_rgba(0,0,0,0.95)] aspect-[16/10] sm:aspect-[16/9] lg:aspect-[21/10] min-h-[460px] sm:min-h-[520px] lg:min-h-[580px] group">
+          {/* Active Background Photo with Crossfade Transition */}
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <Image
+                src={current.image}
+                alt={current.title}
+                fill
+                priority
+                quality={95}
+                className="object-cover object-center"
+                sizes="(max-width: 1280px) 100vw, 1280px"
+              />
             </motion.div>
+          </AnimatePresence>
 
-            {/* Credibility Stats Strip */}
-            <motion.div variants={itemVariants} className="grid grid-cols-3 gap-4 pt-6 border-t border-brand-bronze/20 max-w-lg">
-              <div>
-                <div className="font-editorial text-2xl sm:text-3xl text-brand-gold font-normal">100+</div>
-                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mt-0.5">Years Combined Team Exp.</div>
-              </div>
-              <div className="border-l border-white/10 pl-4">
-                <div className="font-editorial text-2xl sm:text-3xl text-white font-normal">2000</div>
-                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mt-0.5">Serving FL Since</div>
-              </div>
-              <div className="border-l border-white/10 pl-4">
-                <div className="font-editorial text-2xl sm:text-3xl text-brand-gold font-normal">100%</div>
-                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mt-0.5">Full-Time Realtors</div>
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* Luxury Multi-Layer Dark Vignette & Gradient Overlays for Readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/50 pointer-events-none" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-brand-bronze/30 pointer-events-none" />
 
-          {/* Right Column: Asymmetric Architectural Photo Showcase (5 cols) */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            animate="visible"
-            className="lg:col-span-5 relative"
-          >
-            <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-              {/* Primary Architectural Showcase Card */}
-              <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden border border-brand-bronze/30 shadow-2xl group">
-                <Image
-                  src="/assets/properties/featured/9572-waterway-passage.jpg"
-                  alt="9572 Waterway Passage Drive, Winter Garden, FL"
-                  fill
-                  priority
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-
-                {/* Overlaid Editorial Property Card */}
-                <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-left">
-                  <div className="inline-block px-2.5 py-1 bg-brand-bronze/80 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest text-white rounded-sm mb-2">
-                    Active Featured Listing
-                  </div>
-                  <div className="font-editorial text-2xl sm:text-3xl font-normal text-white">
-                    $840,000
-                  </div>
-                  <p className="text-xs sm:text-sm text-zinc-200 font-light mt-0.5">
-                    9572 Waterway Passage Drive, Winter Garden, FL 34787
-                  </p>
-                  <div className="flex items-center gap-3 text-[11px] text-brand-gold font-mono mt-2">
-                    <span>Waterway Passage Enclave</span>
-                    <span>•</span>
-                    <span>Single Family Luxury</span>
-                  </div>
-                </div>
+          {/* Overlaid Editorial Content: Left Side */}
+          <div className="absolute inset-0 p-6 sm:p-10 lg:p-12 flex flex-col justify-between z-10">
+            {/* Top Sub-tag & Mouse Scroll Indicator */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-sm bg-brand-bronze/80 backdrop-blur-md text-[10px] sm:text-xs uppercase font-bold tracking-widest text-white border border-brand-gold/40 shadow-md">
+                  {current.tag}
+                </span>
+                <span className="text-xs text-brand-gold/90 font-mono hidden sm:inline">
+                  MLS #{current.mlsId}
+                </span>
               </div>
 
-              {/* Floating Secondary Supporting Visual: Video Tour Showcase */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="absolute -bottom-8 -left-6 sm:-left-10 w-44 sm:w-56 aspect-[4/3] rounded-sm overflow-hidden border-2 border-brand-gold/60 shadow-2xl hidden sm:block bg-black group cursor-pointer"
-                onClick={() => {
-                  const el = document.getElementById('marketing');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <Image
-                  src="/assets/marketing/video-poster.jpg"
-                  alt="High Definition Florida Real Estate Video Tour"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-90"
-                  sizes="220px"
-                />
-                <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-2 text-center">
-                  <div className="w-9 h-9 rounded-full bg-brand-bronze/90 border border-brand-gold text-white flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
-                    <Play size={14} className="ml-0.5 fill-white text-white" />
-                  </div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white drop-shadow">
-                    HD Video Tours
-                  </span>
-                  <span className="text-[9px] text-brand-gold drop-shadow">
-                    Signature Marketing
-                  </span>
-                </div>
-              </motion.div>
-
-              {/* Floating Florida Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.7, duration: 0.5 }}
-                className="absolute -top-4 -right-4 w-16 h-16 bg-[#161412] border border-brand-bronze/40 rounded-full p-2.5 shadow-xl hidden sm:flex items-center justify-center"
-              >
-                <Image
-                  src="/assets/brand/logo/floridalogo.png"
-                  alt="Florida State Real Estate Logo"
-                  width={42}
-                  height={42}
-                  className="object-contain"
-                />
-              </motion.div>
+              {/* Mouse Scroll Tooltip Indicator */}
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-brand-bronze/40 text-[11px] text-zinc-300">
+                <Mouse size={13} className="text-brand-gold animate-bounce" />
+                <span>Scroll wheel or click to change</span>
+                <span className="text-brand-gold font-mono font-bold ml-1">
+                  0{currentIndex + 1} / 0{total}
+                </span>
+              </div>
             </div>
-          </motion.div>
+
+            {/* Middle Main Editorial Headline */}
+            <div className="max-w-2xl my-auto py-4">
+              <span className="text-xs uppercase tracking-[0.28em] text-brand-gold font-semibold block mb-2 sm:mb-3">
+                Central Florida &amp; Coastal Luxury Brokerage
+              </span>
+
+              <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.08] tracking-tight text-white mb-4 sm:mb-5 drop-shadow-md">
+                Find Your Place in{' '}
+                <span className="italic font-light text-brand-gold">Central Florida</span>.
+              </h1>
+
+              <p className="text-xs sm:text-sm md:text-base text-zinc-200 font-light leading-relaxed max-w-xl mb-6 line-clamp-3 sm:line-clamp-none drop-shadow">
+                {current.description}
+              </p>
+
+              {/* Call to Actions */}
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href="#properties"
+                  className="px-5 sm:px-6 py-2.5 sm:py-3 text-xs uppercase tracking-widest font-semibold text-white bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze rounded-sm shadow-xl flex items-center gap-2 transition-all duration-300"
+                >
+                  <span>Explore All Properties</span>
+                  <ArrowUpRight size={14} />
+                </a>
+
+                <a
+                  href="tel:+14074253553"
+                  className="px-4 sm:px-5 py-2.5 sm:py-3 text-xs uppercase tracking-wider font-medium text-zinc-200 hover:text-white bg-black/50 hover:bg-black/70 border border-brand-bronze/40 rounded-sm backdrop-blur-md flex items-center gap-2 transition-colors"
+                >
+                  <Phone size={13} className="text-brand-gold" />
+                  <span>Call Broker: +1 407-425-3553</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Bottom HUD: Active Property Details Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-4 border-t border-white/10">
+              {/* Active Property Metadata */}
+              <div className="space-y-1">
+                <div className="flex items-center gap-3">
+                  <span className="font-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-brand-gold">
+                    {current.price}
+                  </span>
+                  <span className="text-xs text-zinc-400 font-mono hidden md:inline">
+                    • {current.type}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-white font-medium">
+                  <MapPin size={13} className="text-brand-gold flex-shrink-0" />
+                  <span className="truncate max-w-md">{current.address}</span>
+                </div>
+                <div className="flex items-center gap-3 text-[11px] sm:text-xs text-zinc-300 pt-0.5">
+                  <span className="flex items-center gap-1">
+                    <Bed size={12} className="text-brand-gold" />
+                    <span>{current.beds}</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Bath size={12} className="text-brand-gold" />
+                    <span>{current.baths}</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Square size={12} className="text-brand-gold" />
+                    <span>{current.sqft}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Prev / Next Chevrons & Slide Counter */}
+              <div className="flex items-center gap-2 sm:self-end">
+                <button
+                  type="button"
+                  onClick={goToPrev}
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-sm bg-black/60 hover:bg-brand-bronze border border-brand-bronze/40 hover:border-brand-gold text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg"
+                  aria-label="Previous Property"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+
+                <div className="px-3 py-1.5 rounded-sm bg-black/60 border border-brand-bronze/40 text-xs text-brand-gold font-mono">
+                  0{currentIndex + 1} / 0{total}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={goToNext}
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-sm bg-black/60 hover:bg-brand-bronze border border-brand-bronze/40 hover:border-brand-gold text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg"
+                  aria-label="Next Property"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Multi-Image Interactive Filmstrip Strip (Mouse Scroll / Click to Switch) */}
+        <div className="mt-4 pt-2">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400 font-medium">
+              <Layers size={13} className="text-brand-gold" />
+              <span>Florida Real Estate &amp; Land Co. Portfolio Showcase</span>
+            </div>
+            <span className="text-[11px] text-zinc-500 hidden sm:inline font-mono">
+              Use mouse wheel anywhere on hero to flip images
+            </span>
+          </div>
+
+          {/* Thumbnails Row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+            {HERO_PROPERTIES.map((prop, idx) => {
+              const isActive = idx === currentIndex;
+              return (
+                <div
+                  key={prop.id}
+                  onClick={() => selectIndex(idx)}
+                  className={`relative rounded-sm overflow-hidden p-2 transition-all duration-300 cursor-pointer text-left ${
+                    isActive
+                      ? 'bg-[#181613] border-2 border-brand-gold shadow-[0_0_20px_rgba(218,166,116,0.35)] scale-[1.02]'
+                      : 'bg-[#110f0d] border border-brand-bronze/25 hover:border-brand-bronze/60 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    {/* Thumbnail Image */}
+                    <div className="relative w-14 h-12 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
+                      <Image
+                        src={prop.image}
+                        alt={prop.title}
+                        fill
+                        className="object-cover"
+                        sizes="60px"
+                      />
+                      {isActive && (
+                        <div className="absolute inset-0 bg-brand-gold/15" />
+                      )}
+                    </div>
+
+                    {/* Meta */}
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-semibold text-white truncate">
+                        {prop.price}
+                      </div>
+                      <div className="text-[10px] text-zinc-400 truncate">
+                        {prop.subdivision}
+                      </div>
+                      <div className="text-[9px] text-brand-gold/80 font-mono truncate">
+                        {prop.beds} • {prop.baths}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Active Indicator Bar */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeBar"
+                      className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-brand-bronze via-brand-gold to-brand-bronze"
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Integrated Live MLS Search Console */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-4 pt-6"
-        >
+        <div className="mt-6 pt-4">
           <PropertySearch />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
