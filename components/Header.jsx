@@ -186,11 +186,11 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-3 sm:gap-6">
+          <div className="relative flex items-center justify-between min-h-[52px]">
             {/* Official Company Logo - Made Larger & Prominent */}
-            <div className="flex-shrink-0">
-              <Link href="#" className="flex items-center group py-1">
-                <div className="relative h-9 w-56 sm:h-11 sm:w-72 md:h-13 md:w-84 lg:h-14 lg:w-96 xl:h-16 xl:w-[420px] transition-transform duration-300 group-hover:scale-[1.01]">
+            <div className="flex-shrink-0 z-10">
+              <Link href="#" className="flex items-center group py-0.5">
+                <div className="relative h-11 w-36 sm:h-12 sm:w-40 md:h-13 md:w-44 lg:h-14 lg:w-48 xl:h-16 xl:w-56 transition-transform duration-300 group-hover:scale-[1.02]">
                   <Image
                     src="/assets/brand/logo/official-logo.png"
                     alt="Florida Real Estate & Land Co."
@@ -198,14 +198,14 @@ export default function Header() {
                     priority
                     quality={100}
                     className="object-contain object-left"
-                    sizes="(max-width: 640px) 240px, (max-width: 1024px) 360px, 440px"
+                    sizes="(max-width: 640px) 160px, (max-width: 1024px) 200px, 240px"
                   />
                 </div>
               </Link>
             </div>
 
-            {/* Desktop Navigation Links - Centered in the middle */}
-            <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2 px-2 xl:px-4">
+            {/* Desktop Navigation Links - Centered EXACTLY in the middle (Majh Borabor) */}
+            <nav className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1 xl:gap-2 pointer-events-auto">
               {navStructure.map((item, idx) => (
                 <div
                   key={item.name}
@@ -215,7 +215,7 @@ export default function Header() {
                 >
                   <a
                     href={item.href}
-                    className={`px-3 py-2 text-xs uppercase tracking-wider font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap rounded-sm ${
+                    className={`px-2.5 xl:px-3 py-2 text-xs uppercase tracking-wider font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap rounded-sm ${
                       activeDropdown === idx
                         ? 'text-brand-gold bg-white/5'
                         : 'text-zinc-300 hover:text-brand-gold hover:bg-white/[0.03]'
@@ -284,7 +284,7 @@ export default function Header() {
             </nav>
 
             {/* Desktop Right CTA Button */}
-            <div className="hidden lg:flex items-center justify-end flex-shrink-0">
+            <div className="hidden lg:flex items-center justify-end flex-shrink-0 z-10">
               <a
                 href="#properties"
                 className="relative inline-flex items-center justify-center px-4 xl:px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 rounded-sm bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze shadow-lg hover:shadow-brand-gold/25 whitespace-nowrap"

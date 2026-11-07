@@ -49,13 +49,13 @@ export default function Footer() {
           {/* Brand Col (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="#" className="inline-block">
-              <div className="relative h-12 w-64 sm:h-14 sm:w-80">
+              <div className="relative h-14 w-44 sm:h-16 sm:w-52">
                 <Image
                   src="/assets/brand/logo/official-logo.png"
                   alt="Florida Real Estate & Land Co."
                   fill
                   className="object-contain object-left"
-                  sizes="(max-width: 640px) 256px, 320px"
+                  sizes="(max-width: 640px) 180px, 220px"
                 />
               </div>
             </Link>
