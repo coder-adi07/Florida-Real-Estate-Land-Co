@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, Mail, ChevronDown, ArrowUpRight, Home, Building2, MapPin, Users, Video, Compass, Sparkles } from 'lucide-react';
 
 export default function Header() {
@@ -314,133 +315,160 @@ export default function Header() {
                 <Phone size={15} />
               </a>
 
-              {/* Hamburger Toggle */}
+              {/* Hamburger Toggle - 3 Lines with Smooth Transition */}
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-1.5 sm:p-2 text-zinc-200 hover:text-white bg-[#181614] border border-brand-bronze/30 rounded-sm focus:outline-none"
+                className="p-1.5 sm:p-2 text-brand-gold hover:text-white bg-[#181614] border border-brand-bronze/40 hover:border-brand-gold/60 rounded-sm focus:outline-none transition-all duration-200 active:scale-95 shadow-md"
                 aria-label="Toggle navigation menu"
               >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {mobileMenuOpen ? <X size={20} className="text-brand-gold" /> : <Menu size={20} className="text-brand-gold" />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Full-Screen Mobile Drawer */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[52px] sm:top-[60px] bottom-0 z-50 bg-[#0c0b0a]/98 backdrop-blur-2xl border-t border-brand-bronze/30 overflow-y-auto animate-in fade-in duration-200">
-            <div className="px-4 sm:px-6 py-5 flex flex-col justify-between min-h-full max-w-md mx-auto">
-              {/* Drawer Top Branding */}
-              <div className="space-y-3">
-                <div className="relative h-9 w-60 mb-2">
-                  <Image
-                    src="/assets/brand/logo/official-logo.png"
-                    alt="Florida Real Estate & Land Co."
-                    fill
-                    className="object-contain object-left"
-                  />
-                </div>
-                <div className="text-[10px] uppercase font-bold tracking-widest text-brand-gold/70 pb-1 border-b border-white/10">
-                  Navigation Menu
-                </div>
-
-                {navStructure.map((item, idx) => (
-                  <div key={item.name} className="border-b border-white/5 pb-2">
-                    {item.hasDropdown ? (
-                      <div>
-                        <button
-                          type="button"
-                          onClick={() => toggleAccordion(idx)}
-                          className="w-full flex items-center justify-between py-2 text-sm uppercase tracking-wider font-medium text-zinc-200 hover:text-brand-gold text-left"
-                        >
-                          <span className="flex items-center gap-2">
-                            <span>{item.name}</span>
-                            {item.badge && (
-                              <span className="px-1.5 py-0.5 rounded bg-brand-bronze/30 text-[9px] text-brand-gold font-mono">
-                                {item.badge}
-                              </span>
-                            )}
-                          </span>
-                          <ChevronDown
-                            size={16}
-                            className={`text-brand-gold transition-transform duration-200 ${
-                              mobileAccordion === idx ? 'rotate-180' : ''
-                            }`}
-                          />
-                        </button>
-
-                        {/* Accordion Content */}
-                        {mobileAccordion === idx && (
-                          <div className="pl-3 pt-2 pb-1 space-y-2 border-l border-brand-bronze/30 my-1">
-                            {item.subSections.map((sub, sIdx) => (
-                              <a
-                                key={sIdx}
-                                href={sub.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="block py-1 text-xs text-zinc-300 hover:text-brand-gold"
-                              >
-                                <div className="font-medium flex items-center gap-1">
-                                  <span>{sub.title}</span>
-                                  {sub.isExternal && <ArrowUpRight size={10} />}
-                                </div>
-                                <div className="text-[10px] text-zinc-500 font-light">
-                                  {sub.desc}
-                                </div>
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <a
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm uppercase tracking-wider font-medium text-zinc-200 hover:text-brand-gold"
-                      >
-                        {item.name}
-                      </a>
-                    )}
+        {/* Luxury Silk Curtain Mobile Dropdown Menu (Porda Akare Niche Neme Ashbe) */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              key="mobile-curtain-menu"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.16, 1, 0.3, 1], // Smooth luxury curtain slide
+              }}
+              className="lg:hidden w-full overflow-hidden bg-gradient-to-b from-[#14120f] via-[#0d0b09] to-[#070605] border-t border-brand-bronze/40 border-b-2 border-brand-gold/40 shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-2xl"
+            >
+              <div className="px-5 sm:px-8 py-5 max-h-[calc(100vh-70px)] overflow-y-auto space-y-4">
+                {/* Brand Strip inside Curtain */}
+                <div className="flex items-center justify-between pb-3 border-b border-brand-bronze/25">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-brand-gold animate-pulse" />
+                    <span className="text-xs uppercase font-bold tracking-widest text-brand-gold">
+                      Florida Real Estate &amp; Land Co.
+                    </span>
                   </div>
-                ))}
-              </div>
-
-              {/* Mobile Drawer Bottom Actions - 100% Contained, Never Cut Off */}
-              <div className="pt-6 mt-6 border-t border-brand-bronze/30 space-y-3">
-                <a
-                  href="#properties"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3.5 px-4 bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-xl flex items-center justify-center gap-2 text-center box-border"
-                >
-                  <span>Explore All Featured Properties</span>
-                  <ArrowUpRight size={14} />
-                </a>
-
-                {/* Direct Broker Actions */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <a
-                    href="tel:+14074253553"
-                    className="p-2.5 rounded-sm bg-[#161412] border border-brand-bronze/30 text-zinc-200 hover:text-white text-xs flex items-center justify-center gap-1.5"
-                  >
-                    <Phone size={13} className="text-brand-gold" />
-                    <span>Call Broker</span>
-                  </a>
-                  <a
-                    href="mailto:info@danielcoombsPA.com"
-                    className="p-2.5 rounded-sm bg-[#161412] border border-brand-bronze/30 text-zinc-200 hover:text-white text-xs flex items-center justify-center gap-1.5"
-                  >
-                    <Mail size={13} className="text-brand-gold" />
-                    <span>Email Team</span>
-                  </a>
+                  <span className="text-[10px] text-zinc-400 font-mono">
+                    Orlando, FL
+                  </span>
                 </div>
 
-                <div className="text-center text-[10px] text-zinc-500 pt-2 font-mono">
-                  Florida Real Estate &amp; Land Co. • Orlando, FL
+                {/* Staggered Navigation Items */}
+                <div className="space-y-1">
+                  {navStructure.map((item, idx) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.03 * idx, duration: 0.25 }}
+                      className="border-b border-brand-bronze/15 pb-2"
+                    >
+                      {item.hasDropdown ? (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={() => toggleAccordion(idx)}
+                            className="w-full flex items-center justify-between py-2 text-sm uppercase tracking-wider font-medium text-zinc-200 hover:text-brand-gold text-left transition-colors"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span>{item.name}</span>
+                              {item.badge && (
+                                <span className="px-1.5 py-0.5 rounded bg-brand-bronze/30 text-[9px] text-brand-gold font-mono">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </span>
+                            <ChevronDown
+                              size={16}
+                              className={`text-brand-gold transition-transform duration-300 ${
+                                mobileAccordion === idx ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+
+                          {/* Smooth Accordion Content Drop */}
+                          <AnimatePresence>
+                            {mobileAccordion === idx && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="overflow-hidden pl-3 pt-1 pb-1 space-y-2 border-l border-brand-bronze/40 my-1"
+                              >
+                                {item.subSections.map((sub, sIdx) => (
+                                  <a
+                                    key={sIdx}
+                                    href={sub.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block py-1.5 text-xs text-zinc-300 hover:text-brand-gold transition-colors"
+                                  >
+                                    <div className="font-medium flex items-center gap-1.5">
+                                      <span>{sub.title}</span>
+                                      {sub.isExternal && <ArrowUpRight size={10} className="text-brand-gold" />}
+                                    </div>
+                                    <div className="text-[10px] text-zinc-500 font-light">
+                                      {sub.desc}
+                                    </div>
+                                  </a>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <a
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block py-2 text-sm uppercase tracking-wider font-medium text-zinc-200 hover:text-brand-gold transition-colors"
+                        >
+                          {item.name}
+                        </a>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Mobile Drawer Bottom Actions - 100% Matching Theme */}
+                <div className="pt-4 mt-2 border-t border-brand-bronze/30 space-y-3">
+                  <a
+                    href="#properties"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-3 px-4 bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze text-white text-xs uppercase tracking-widest font-semibold rounded-sm shadow-xl flex items-center justify-center gap-2 text-center transition-all duration-300"
+                  >
+                    <span>Explore Featured Properties</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+
+                  {/* Direct Broker Contact Quick Actions */}
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <a
+                      href="tel:+14074253553"
+                      className="p-2.5 rounded-sm bg-[#181614] border border-brand-bronze/40 hover:border-brand-gold/60 text-zinc-200 hover:text-white text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <Phone size={13} className="text-brand-gold" />
+                      <span>Call Broker</span>
+                    </a>
+                    <a
+                      href="mailto:info@danielcoombsPA.com"
+                      className="p-2.5 rounded-sm bg-[#181614] border border-brand-bronze/40 hover:border-brand-gold/60 text-zinc-200 hover:text-white text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <Mail size={13} className="text-brand-gold" />
+                      <span>Email Team</span>
+                    </a>
+                  </div>
+
+                  <div className="text-center text-[10px] text-zinc-500 pt-2 font-mono">
+                    100+ Years Combined Acumen • Stellar MLS Certified
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
     </>
   );
