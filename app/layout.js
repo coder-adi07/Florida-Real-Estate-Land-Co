@@ -61,8 +61,9 @@ export const metadata = {
     images: ['/assets/properties/featured/9572-waterway-passage.jpg'],
   },
   icons: {
-    icon: '/assets/brand/brand-icons/favicon.ico',
-    shortcut: '/assets/brand/brand-icons/favicon.ico',
+    icon: '/assets/brand/brand-icons/favicon.png',
+    shortcut: '/assets/brand/brand-icons/favicon.png',
+    apple: '/assets/brand/brand-icons/favicon.png',
   },
   robots: {
     index: true,

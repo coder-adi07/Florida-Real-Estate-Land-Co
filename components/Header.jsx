@@ -186,24 +186,26 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Official Company Logo - Authentic Florida Real Estate & Land Co. */}
-            <Link href="#" className="flex items-center flex-shrink-0 group py-1">
-              <div className="relative h-8 w-52 sm:h-10 sm:w-64 md:h-11 md:w-72 lg:h-12 lg:w-80 xl:h-13 xl:w-92 transition-transform duration-300 group-hover:scale-[1.01]">
-                <Image
-                  src="/assets/brand/logo/official-logo.png"
-                  alt="Florida Real Estate & Land Co."
-                  fill
-                  priority
-                  quality={100}
-                  className="object-contain object-left"
-                  sizes="(max-width: 640px) 210px, (max-width: 1024px) 290px, 370px"
-                />
-              </div>
-            </Link>
+          <div className="flex items-center justify-between gap-3 sm:gap-6">
+            {/* Official Company Logo - Made Larger & Prominent */}
+            <div className="flex-shrink-0">
+              <Link href="#" className="flex items-center group py-1">
+                <div className="relative h-9 w-56 sm:h-11 sm:w-72 md:h-13 md:w-84 lg:h-14 lg:w-96 xl:h-16 xl:w-[420px] transition-transform duration-300 group-hover:scale-[1.01]">
+                  <Image
+                    src="/assets/brand/logo/official-logo.png"
+                    alt="Florida Real Estate & Land Co."
+                    fill
+                    priority
+                    quality={100}
+                    className="object-contain object-left"
+                    sizes="(max-width: 640px) 240px, (max-width: 1024px) 360px, 440px"
+                  />
+                </div>
+              </Link>
+            </div>
 
-            {/* Desktop Navigation Links - Organized, Compact, Non-breaking */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+            {/* Desktop Navigation Links - Centered in the middle */}
+            <nav className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2 px-2 xl:px-4">
               {navStructure.map((item, idx) => (
                 <div
                   key={item.name}
@@ -282,7 +284,7 @@ export default function Header() {
             </nav>
 
             {/* Desktop Right CTA Button */}
-            <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+            <div className="hidden lg:flex items-center justify-end flex-shrink-0">
               <a
                 href="#properties"
                 className="relative inline-flex items-center justify-center px-4 xl:px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 rounded-sm bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze shadow-lg hover:shadow-brand-gold/25 whitespace-nowrap"
