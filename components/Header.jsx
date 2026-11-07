@@ -187,10 +187,10 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between min-h-[52px]">
-            {/* Official Company Logo - Made Larger & Prominent */}
+            {/* Official Company Logo - Made Prominently Larger */}
             <div className="flex-shrink-0 z-10">
-              <Link href="#" className="flex items-center group py-0.5">
-                <div className="relative h-11 w-36 sm:h-12 sm:w-40 md:h-13 md:w-44 lg:h-14 lg:w-48 xl:h-16 xl:w-56 transition-transform duration-300 group-hover:scale-[1.02]">
+              <Link href="#" className="flex items-center group py-1">
+                <div className="relative h-13 w-44 sm:h-15 sm:w-52 md:h-16 md:w-56 lg:h-[70px] lg:w-[230px] xl:h-[82px] xl:w-[270px] transition-transform duration-300 group-hover:scale-[1.03]">
                   <Image
                     src="/assets/brand/logo/official-logo.png"
                     alt="Florida Real Estate & Land Co."
@@ -198,7 +198,7 @@ export default function Header() {
                     priority
                     quality={100}
                     className="object-contain object-left"
-                    sizes="(max-width: 640px) 160px, (max-width: 1024px) 200px, 240px"
+                    sizes="(max-width: 640px) 180px, (max-width: 1024px) 240px, 300px"
                   />
                 </div>
               </Link>
