@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { MapPin, ArrowRight, ExternalLink, Compass } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, ArrowRight, ExternalLink, Compass, Sparkles } from 'lucide-react';
 
 export default function Communities() {
   const [activeRegion, setActiveRegion] = useState('central');
@@ -90,7 +91,13 @@ export default function Communities() {
     <section id="communities" className="py-24 bg-[#0a0a0a] border-t border-brand-bronze/20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-brand-bronze/20 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-brand-bronze/20 gap-6"
+        >
           <div>
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-2">
               <Compass size={13} className="text-brand-gold" />
@@ -99,7 +106,7 @@ export default function Communities() {
             <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
               Explore Central Florida &amp; <span className="italic text-brand-gold">Coastal Communities</span>
             </h2>
-            <p className="text-zinc-400 text-sm mt-2 max-w-xl">
+            <p className="text-zinc-400 text-sm mt-2 max-w-xl font-light">
               Authentic neighborhoods served by our veteran Realtors with deep local zoning, school district, and valuation expertise.
             </p>
           </div>
@@ -114,7 +121,7 @@ export default function Communities() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveRegion(tab.id)}
-                className={`px-4 py-2 text-xs uppercase tracking-wider font-medium rounded-sm transition-all duration-200 ${
+                className={`px-4 py-2 text-xs uppercase tracking-wider font-medium rounded-sm transition-all duration-200 cursor-pointer ${
                   activeRegion === tab.id
                     ? 'bg-gradient-to-r from-brand-bronze to-brand-gold text-white font-semibold shadow-md'
                     : 'bg-[#151412] text-zinc-400 hover:text-white border border-brand-bronze/20'
@@ -124,63 +131,74 @@ export default function Communities() {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Communities Editorial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filtered.map((comm) => (
-            <div
-              key={comm.id}
-              className="group bg-[#121110] border border-brand-bronze/25 rounded-sm p-6 hover:border-brand-gold/60 transition-all duration-300 flex flex-col justify-between shadow-xl relative overflow-hidden"
-            >
-              {/* Subtle top gold accent bar on hover */}
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-bronze to-brand-gold opacity-0 group-hover:opacity-100 transition-opacity" />
-
-              <div>
-                <div className="flex items-center justify-between text-xs text-brand-gold font-mono mb-2">
-                  <span className="flex items-center gap-1">
-                    <MapPin size={12} className="text-brand-gold" />
-                    Florida Enclave
-                  </span>
-                  <span className="text-[10px] uppercase tracking-widest text-zinc-500">
-                    {comm.region}
-                  </span>
-                </div>
-
-                <h3 className="font-editorial text-2xl text-white font-medium mb-1 group-hover:text-brand-gold transition-colors">
-                  {comm.name}
-                </h3>
-                <div className="text-xs text-zinc-400 font-light italic mb-4">
-                  {comm.tagline}
-                </div>
-
-                <p className="text-xs text-zinc-300 font-light leading-relaxed mb-6">
-                  {comm.description}
-                </p>
-
-                {/* Micro Highlights */}
-                <div className="space-y-1.5 mb-6 pt-4 border-t border-brand-bronze/15">
-                  {comm.highlights.map((h, i) => (
-                    <div key={i} className="text-[11px] text-zinc-400 flex items-center gap-1.5">
-                      <span className="w-1 h-1 rounded-full bg-brand-gold/80" />
-                      <span>{h}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <a
-                href={comm.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-between text-xs uppercase tracking-widest font-semibold text-brand-gold hover:text-white pt-4 border-t border-brand-bronze/20 transition-colors group/link"
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <AnimatePresence>
+            {filtered.map((comm) => (
+              <motion.div
+                layout
+                key={comm.id}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.35 }}
+                whileHover={{ y: -4, borderColor: 'rgba(218, 166, 116, 0.6)' }}
+                className="group bg-[#121110] border border-brand-bronze/25 rounded-sm p-6 transition-all duration-300 flex flex-col justify-between shadow-xl relative overflow-hidden"
               >
-                <span>View Community Page</span>
-                <ArrowRight size={13} className="group-hover/link:translate-x-1 transition-transform" />
-              </a>
-            </div>
-          ))}
-        </div>
+                {/* Subtle top gold accent bar on hover */}
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-bronze to-brand-gold opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div>
+                  <div className="flex items-center justify-between text-xs text-brand-gold font-mono mb-2">
+                    <span className="flex items-center gap-1">
+                      <MapPin size={12} className="text-brand-gold" />
+                      Florida Enclave
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-zinc-500">
+                      {comm.region}
+                    </span>
+                  </div>
+
+                  <h3 className="font-editorial text-2xl text-white font-medium mb-1 group-hover:text-brand-gold transition-colors">
+                    {comm.name}
+                  </h3>
+                  <div className="text-xs text-zinc-400 font-light italic mb-4">
+                    {comm.tagline}
+                  </div>
+
+                  <p className="text-xs text-zinc-300 font-light leading-relaxed mb-6">
+                    {comm.description}
+                  </p>
+
+                  {/* Micro Highlights */}
+                  <div className="space-y-1.5 mb-6 pt-4 border-t border-brand-bronze/15">
+                    {comm.highlights.map((h, i) => (
+                      <div key={i} className="text-[11px] text-zinc-400 flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-brand-gold/80" />
+                        <span>{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <a
+                  href={comm.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-between text-xs uppercase tracking-widest font-semibold text-brand-gold hover:text-white pt-4 border-t border-brand-bronze/20 transition-colors group/link"
+                >
+                  <span>View Community Page</span>
+                  <ArrowRight size={13} className="group-hover/link:translate-x-1 transition-transform" />
+                </a>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

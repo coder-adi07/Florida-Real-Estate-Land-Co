@@ -35,3 +35,4 @@ This inventory documents all verified digital assets collected directly from the
 | `relocate.jpg` | Marketing Archives | `https://www.orlandosalesclub.com/wp-content/uploads/2012/10/help-me-relocate.jpg` | Florida Relocation Services banner | Services / Relocation | Verified Original | Authorized Client Redesign Use |
 | `dream-home.jpg` | Marketing Archives | `https://www.orlandosalesclub.com/wp-content/uploads/2012/10/find-my-dream1.jpg` | Find My Dream Home campaign | Services / Buyer Representation | Verified Original | Authorized Client Redesign Use |
 | `home-worth.jpg` | Marketing Archives | `https://www.orlandosalesclub.com/wp-content/uploads/2012/10/what-home-worth.jpg` | What Is My Home Worth Valuation campaign | Services / Seller Representation | Verified Original | Authorized Client Redesign Use |
+

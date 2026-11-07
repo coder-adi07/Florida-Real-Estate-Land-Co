@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Bed, Bath, Square, MapPin, ArrowUpRight, Sparkles, ExternalLink, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bed, Bath, Square, MapPin, ArrowUpRight, Sparkles, ExternalLink, X, Phone, Mail, CheckCircle2 } from 'lucide-react';
 
 export default function FeaturedProperties() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedProperty, setSelectedProperty] = useState(null);
 
   const properties = [
     {
@@ -22,7 +24,7 @@ export default function FeaturedProperties() {
       image: '/assets/properties/featured/9572-waterway-passage.jpg',
       badge: 'Featured Showcase',
       description: 'Sophisticated contemporary living in sought-after Winter Garden. Elegant architectural lines, seamless indoor-outdoor living, and close proximity to Hamlin and Horizon West.',
-      featured: true,
+      features: ['Hamlin Town Center proximity', 'Gourmet Chef Kitchen', 'Screened Outdoor Lanai', 'Custom Primary Suite', 'Stellar MLS Verified'],
       mlsId: 'MFR800521571',
     },
     {
@@ -39,7 +41,7 @@ export default function FeaturedProperties() {
       image: '/assets/properties/featured/1305-e-baker-st.jpg',
       badge: 'Prime Investment',
       description: 'Rare architectural stature with expansive grounds, vintage detailing, and exceptional value for investors or discerning private owners seeking distinction.',
-      featured: false,
+      features: ['Expansive Private Grounds', 'Architectural Stature', 'High-Yield Investment Potential', 'Convenient I-4 Corridor Access'],
       mlsId: 'MFR782168898',
     },
     {
@@ -56,7 +58,7 @@ export default function FeaturedProperties() {
       image: '/assets/properties/featured/10520-belfry-cir.jpg',
       badge: 'Lake Nona Corridor',
       description: 'Nestled in the high-growth Lake Nona corridor minutes from Medical City, USTA National Campus, and premier championship golf amenities.',
-      featured: false,
+      features: ['Minutes to Medical City', 'Championship Golf Access', 'Open Concept Architecture', 'High Rental Demand Area'],
       mlsId: 'MFR813891695',
     },
     {
@@ -73,7 +75,7 @@ export default function FeaturedProperties() {
       image: '/assets/properties/featured/3880-mt-vernon-way.jpg',
       badge: 'Verified MLS',
       description: 'Spacious floor plan with immaculate appointments, private screened lanai, and prime access to Orlando theme corridors and major expressways.',
-      featured: false,
+      features: ['Private Screened Swimming Lanai', 'Split Floor Plan', 'Low HOA Community', 'Turnkey Condition'],
       mlsId: 'MFR812590484',
     },
     {
@@ -90,14 +92,10 @@ export default function FeaturedProperties() {
       image: '/assets/properties/featured/10224-matchlock-dr.jpg',
       badge: 'Executive Rental',
       description: 'Managed under the Orlando Rentals division of Florida Real Estate & Land Co. Impeccable finishes, convenient central positioning, and turnkey comfort.',
-      featured: false,
+      features: ['Orlando Rentals Exclusive', 'Vetted Professional Management', 'Central Location near I-Drive', 'Lawn Maintenance Included'],
       mlsId: 'MFR814356001',
     },
   ];
-
-  const filtered = activeFilter === 'all' 
-    ? properties 
-    : properties.filter(p => p.category === activeFilter);
 
   const mainFeatured = properties[0];
   const secondaryProperties = properties.slice(1, 3);
@@ -107,7 +105,13 @@ export default function FeaturedProperties() {
     <section id="properties" className="py-24 bg-brand-black relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-brand-bronze/20 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-brand-bronze/20 gap-6"
+        >
           <div>
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-2">
               <Sparkles size={13} className="text-brand-gold" />
@@ -142,15 +146,24 @@ export default function FeaturedProperties() {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Asymmetric Luxury Editorial Grid Layout */}
         <div className="space-y-8">
-          {/* Top Asymmetric Row: 1 Major Feature (7 cols) + 2 Stacked Supporting (5 cols) */}
+          {/* Top Asymmetric Row */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* Primary Major Feature (7 Cols) */}
-            <div className="lg:col-span-7 group relative bg-[#131210] border border-brand-bronze/30 rounded-sm overflow-hidden flex flex-col justify-between shadow-2xl hover:border-brand-gold/60 transition-all duration-300">
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-zinc-900">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-7 group relative bg-[#131210] border border-brand-bronze/30 rounded-sm overflow-hidden flex flex-col justify-between shadow-2xl hover:border-brand-gold/60 transition-all duration-300"
+            >
+              <div
+                className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+                onClick={() => setSelectedProperty(mainFeatured)}
+              >
                 <Image
                   src={mainFeatured.image}
                   alt={mainFeatured.title}
@@ -212,27 +225,33 @@ export default function FeaturedProperties() {
                     </div>
                   </div>
 
-                  <a
-                    href="https://www.orlandosalesclub.com/category/featured-properties/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold text-brand-gold hover:text-white transition-colors"
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProperty(mainFeatured)}
+                    className="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold text-brand-gold hover:text-white transition-colors cursor-pointer"
                   >
                     <span>View Property Details</span>
                     <ArrowUpRight size={14} />
-                  </a>
+                  </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* 2 Stacked Supporting Property Cards (5 Cols) */}
             <div className="lg:col-span-5 flex flex-col gap-6">
               {secondaryProperties.map((prop) => (
-                <div
+                <motion.div
                   key={prop.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
                   className="group bg-[#131210] border border-brand-bronze/30 rounded-sm overflow-hidden flex flex-col sm:flex-row hover:border-brand-gold/60 transition-all duration-300 shadow-xl"
                 >
-                  <div className="relative aspect-[4/3] sm:w-2/5 overflow-hidden flex-shrink-0 bg-zinc-900">
+                  <div
+                    className="relative aspect-[4/3] sm:w-2/5 overflow-hidden flex-shrink-0 bg-zinc-900 cursor-pointer"
+                    onClick={() => setSelectedProperty(prop)}
+                  >
                     <Image
                       src={prop.image}
                       alt={prop.title}
@@ -265,30 +284,36 @@ export default function FeaturedProperties() {
 
                     <div className="pt-3 mt-3 border-t border-brand-bronze/20 flex items-center justify-between text-xs text-zinc-400">
                       <span>{prop.beds} • {prop.baths}</span>
-                      <a
-                        href="https://www.orlandosalesclub.com/category/featured-properties/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-brand-gold hover:text-white flex items-center gap-0.5 text-[11px] font-medium"
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProperty(prop)}
+                        className="text-brand-gold hover:text-white flex items-center gap-0.5 text-[11px] font-medium cursor-pointer"
                       >
                         <span>Details</span>
                         <ArrowUpRight size={12} />
-                      </a>
+                      </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
-          {/* Bottom Row: 2 Wide Secondary Columns (6 cols + 6 cols) */}
+          {/* Bottom Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {bottomProperties.map((prop) => (
-              <div
+              <motion.div
                 key={prop.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
                 className="group bg-[#131210] border border-brand-bronze/30 rounded-sm overflow-hidden flex flex-col hover:border-brand-gold/60 transition-all duration-300 shadow-xl"
               >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
+                <div
+                  className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+                  onClick={() => setSelectedProperty(prop)}
+                >
                   <Image
                     src={prop.image}
                     alt={prop.title}
@@ -341,23 +366,22 @@ export default function FeaturedProperties() {
                       <span>{prop.sqft}</span>
                     </div>
 
-                    <a
-                      href="https://www.orlandosalesclub.com/category/featured-properties/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-brand-gold hover:text-white flex items-center gap-1 font-medium text-xs"
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProperty(prop)}
+                      className="text-brand-gold hover:text-white flex items-center gap-1 font-medium text-xs cursor-pointer"
                     >
                       <span>Explore</span>
                       <ArrowUpRight size={13} />
-                    </a>
+                    </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
-        {/* Global CTA */}
+        {/* Global CTA Strip */}
         <div className="mt-12 p-8 rounded-sm bg-gradient-to-r from-[#171513] via-[#1c1916] to-[#171513] border border-brand-bronze/30 text-center flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="text-left">
             <h4 className="font-editorial text-xl text-white font-normal">
@@ -381,6 +405,137 @@ export default function FeaturedProperties() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Property Detail Modal */}
+      <AnimatePresence>
+        {selectedProperty && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-3xl bg-[#141210] border border-brand-bronze/50 rounded-sm shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setSelectedProperty(null)}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/70 text-white hover:bg-brand-bronze transition-colors cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+
+              {/* Modal Image */}
+              <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950 flex-shrink-0">
+                <Image
+                  src={selectedProperty.image}
+                  alt={selectedProperty.title}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-6 right-6">
+                  <span className="px-2.5 py-1 bg-brand-bronze text-[10px] uppercase font-bold tracking-widest text-white rounded-sm">
+                    {selectedProperty.badge}
+                  </span>
+                  <div className="font-editorial text-3xl sm:text-4xl text-white font-normal mt-1">
+                    {selectedProperty.price}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <div>
+                  <h3 className="font-editorial text-2xl text-white font-medium">
+                    {selectedProperty.title}
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-light mt-1">
+                    <MapPin size={13} className="text-brand-gold" />
+                    <span>{selectedProperty.address}, {selectedProperty.city}</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-4 gap-3 p-4 bg-[#1a1815] border border-brand-bronze/20 rounded-sm text-center">
+                  <div>
+                    <div className="text-[10px] uppercase text-zinc-500">MLS ID</div>
+                    <div className="text-xs font-mono text-brand-gold font-medium mt-0.5">{selectedProperty.mlsId}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase text-zinc-500">Beds</div>
+                    <div className="text-xs text-white font-medium mt-0.5">{selectedProperty.beds}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase text-zinc-500">Baths</div>
+                    <div className="text-xs text-white font-medium mt-0.5">{selectedProperty.baths}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase text-zinc-500">Living Area</div>
+                    <div className="text-xs text-white font-medium mt-0.5">{selectedProperty.sqft}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs uppercase tracking-wider font-semibold text-brand-gold mb-2">
+                    Property Overview
+                  </h4>
+                  <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
+                    {selectedProperty.description}
+                  </p>
+                </div>
+
+                {selectedProperty.features && (
+                  <div>
+                    <h4 className="text-xs uppercase tracking-wider font-semibold text-brand-gold mb-2">
+                      Key Highlights &amp; Features
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {selectedProperty.features.map((feat, idx) => (
+                        <div key={idx} className="flex items-center gap-2 text-xs text-zinc-300">
+                          <CheckCircle2 size={13} className="text-brand-gold flex-shrink-0" />
+                          <span>{feat}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Modal Action CTA */}
+                <div className="pt-4 border-t border-brand-bronze/20 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <a
+                      href="tel:+14074253553"
+                      className="px-5 py-2.5 bg-gradient-to-r from-brand-bronze to-brand-gold text-white text-xs uppercase tracking-widest font-semibold rounded-sm flex items-center gap-2 hover:opacity-95"
+                    >
+                      <Phone size={13} />
+                      <span>Speak with Broker</span>
+                    </a>
+                    <a
+                      href={`mailto:info@danielcoombsPA.com?subject=Inquiry on ${selectedProperty.title} (${selectedProperty.mlsId})`}
+                      className="px-5 py-2.5 bg-[#1f1d1a] border border-brand-bronze/40 text-brand-cream text-xs uppercase tracking-widest font-semibold rounded-sm hover:border-brand-gold flex items-center gap-2"
+                    >
+                      <Mail size={13} />
+                      <span>Email Inquiry</span>
+                    </a>
+                  </div>
+
+                  <a
+                    href="https://www.orlandosalesclub.com/category/featured-properties/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-brand-gold hover:underline flex items-center gap-1 font-mono"
+                  >
+                    <span>View on MLS Source</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -1,10 +1,40 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowUpRight, Award, Compass, Play, Shield, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Award, Compass, Play, Sparkles } from 'lucide-react';
 import PropertySearch from './PropertySearch';
 
 export default function Hero() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-between pt-8 pb-16 overflow-hidden bg-brand-black">
       {/* Background Architectural Glow */}
@@ -14,11 +44,16 @@ export default function Hero() {
       {/* Main Hero Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
         {/* Top Editorial Eyebrow */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-bronze/20 pb-4 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-bronze/20 pb-4 mb-8"
+        >
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-bronze/15 border border-brand-bronze/30 text-[11px] uppercase tracking-widest text-brand-gold font-medium">
               <Sparkles size={12} className="text-brand-gold" />
-              Florida Real Estate & Land Co.
+              Florida Real Estate &amp; Land Co.
             </span>
             <span className="text-xs text-zinc-400 font-mono hidden sm:inline">
               Orlando Sales Club | Est. 2000
@@ -32,56 +67,65 @@ export default function Hero() {
             </div>
             <div className="hidden md:flex items-center gap-1.5">
               <Compass size={14} className="text-brand-gold" />
-              <span>Stellar MLS & MFRMLS Certified</span>
+              <span>Stellar MLS &amp; MFRMLS Certified</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Asymmetric Hero Composition */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12">
           {/* Left Column: Editorial Headline & Copy (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            <span className="text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-3">
-              Central Florida & Coastal Luxury Brokerage
-            </span>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="lg:col-span-7 flex flex-col justify-center"
+          >
+            <motion.span variants={itemVariants} className="text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-3">
+              Central Florida &amp; Coastal Luxury Brokerage
+            </motion.span>
 
-            <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-white mb-6">
+            <motion.h1 variants={itemVariants} className="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-white mb-6">
               Find Your Place in{' '}
               <span className="italic font-light text-brand-gold">Central Florida</span>.
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mb-8">
+            <motion.p variants={itemVariants} className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl mb-8">
               A seasoned collective of dedicated, full-time Realtors with over a century of combined experience. 
               We curate extraordinary residential retreats, waterfront sanctuaries, and strategic Florida land investments with tailored personal representation.
-            </p>
+            </motion.p>
 
             {/* CTAs and Direct Credentials */}
-            <div className="flex flex-wrap items-center gap-4 mb-8">
-              <a
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 w-full max-w-xl">
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 href="#properties"
-                className="px-7 py-3.5 bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze text-white text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-300 shadow-xl hover:shadow-brand-gold/20 flex items-center gap-2 group"
+                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 bg-gradient-to-r from-brand-bronze to-brand-gold hover:from-brand-gold hover:to-brand-bronze text-white text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-300 shadow-xl hover:shadow-brand-gold/20 flex items-center justify-center gap-2 text-center"
               >
-                <span>View Featured Listings</span>
-                <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
+                <span>Explore Properties</span>
+                <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </motion.a>
 
-              <a
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 href="#team"
-                className="px-7 py-3.5 bg-[#171513] hover:bg-[#221f1c] text-brand-cream border border-brand-bronze/40 hover:border-brand-gold text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-200"
+                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 bg-[#171513] hover:bg-[#221f1c] text-brand-cream border border-brand-bronze/40 hover:border-brand-gold text-xs uppercase tracking-widest font-semibold rounded-sm transition-all duration-200 text-center justify-center"
               >
                 Meet Our Realtors
-              </a>
+              </motion.a>
 
               <a
                 href="tel:+14074253553"
-                className="text-xs text-brand-gold/90 hover:text-white uppercase tracking-wider font-medium flex items-center gap-1.5 ml-2"
+                className="text-xs text-brand-gold/90 hover:text-white uppercase tracking-wider font-medium flex items-center justify-center sm:justify-start gap-1.5 py-1 sm:py-0 sm:ml-2"
               >
                 <span>Call Broker: +1 407-425-3553</span>
               </a>
-            </div>
+            </motion.div>
 
             {/* Credibility Stats Strip */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-brand-bronze/20 max-w-lg">
+            <motion.div variants={itemVariants} className="grid grid-cols-3 gap-4 pt-6 border-t border-brand-bronze/20 max-w-lg">
               <div>
                 <div className="font-editorial text-2xl sm:text-3xl text-brand-gold font-normal">100+</div>
                 <div className="text-[11px] uppercase tracking-wider text-zinc-400 mt-0.5">Years Combined Team Exp.</div>
@@ -94,11 +138,16 @@ export default function Hero() {
                 <div className="font-editorial text-2xl sm:text-3xl text-brand-gold font-normal">100%</div>
                 <div className="text-[11px] uppercase tracking-wider text-zinc-400 mt-0.5">Full-Time Realtors</div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column: Asymmetric Architectural Photo Showcase (5 cols) */}
-          <div className="lg:col-span-5 relative">
+          <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+            className="lg:col-span-5 relative"
+          >
             <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
               {/* Primary Architectural Showcase Card */}
               <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden border border-brand-bronze/30 shadow-2xl group">
@@ -132,7 +181,16 @@ export default function Hero() {
               </div>
 
               {/* Floating Secondary Supporting Visual: Video Tour Showcase */}
-              <div className="absolute -bottom-8 -left-6 sm:-left-10 w-44 sm:w-56 aspect-[4/3] rounded-sm overflow-hidden border-2 border-brand-gold/60 shadow-2xl hidden sm:block bg-black group">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="absolute -bottom-8 -left-6 sm:-left-10 w-44 sm:w-56 aspect-[4/3] rounded-sm overflow-hidden border-2 border-brand-gold/60 shadow-2xl hidden sm:block bg-black group cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById('marketing');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
                 <Image
                   src="/assets/marketing/video-poster.jpg"
                   alt="High Definition Florida Real Estate Video Tour"
@@ -151,10 +209,15 @@ export default function Hero() {
                     Signature Marketing
                   </span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Floating Florida Badge */}
-              <div className="absolute -top-4 -right-4 w-16 h-16 bg-[#161412] border border-brand-bronze/40 rounded-full p-2.5 shadow-xl hidden sm:flex items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+                className="absolute -top-4 -right-4 w-16 h-16 bg-[#161412] border border-brand-bronze/40 rounded-full p-2.5 shadow-xl hidden sm:flex items-center justify-center"
+              >
                 <Image
                   src="/assets/brand/logo/floridalogo.png"
                   alt="Florida State Real Estate Logo"
@@ -162,15 +225,20 @@ export default function Hero() {
                   height={42}
                   className="object-contain"
                 />
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Integrated Live MLS Search Console */}
-        <div className="mt-4 pt-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-4 pt-6"
+        >
           <PropertySearch />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

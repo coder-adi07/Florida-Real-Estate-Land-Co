@@ -45,8 +45,8 @@ export default function PropertySearch() {
   return (
     <div className="w-full max-w-5xl mx-auto bg-[#121110]/95 backdrop-blur-xl border border-brand-bronze/30 rounded-sm shadow-2xl p-4 sm:p-6 lg:p-8">
       {/* Search Tabs */}
-      <div className="flex flex-wrap items-center justify-between border-b border-white/10 pb-4 mb-6 gap-3">
-        <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 mb-6 gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-3">
           {[
             { id: 'buy', label: 'Buy A Home' },
             { id: 'rent', label: 'For Rent' },
@@ -57,19 +57,19 @@ export default function PropertySearch() {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium uppercase tracking-wider rounded-sm transition-all duration-200 ${
+              className={`px-3 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase tracking-wider rounded-sm transition-all duration-200 text-center cursor-pointer ${
                 activeTab === tab.id
                   ? 'bg-gradient-to-r from-brand-bronze to-brand-gold text-white font-semibold shadow-md'
-                  : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/5 bg-[#171513]/60'
               }`}
             >
               {tab.label}
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-brand-gold/80 font-mono">
-          <ShieldCheck size={14} className="text-brand-gold" />
-          <span>MLS Verified Live Inventory</span>
+        <div className="flex items-center gap-1.5 text-xs text-brand-gold/80 font-mono pt-1 sm:pt-0">
+          <ShieldCheck size={14} className="text-brand-gold flex-shrink-0" />
+          <span className="text-[11px]">MLS Verified Live Inventory</span>
         </div>
       </div>
 
@@ -171,3 +171,4 @@ export default function PropertySearch() {
     </div>
   );
 }
+

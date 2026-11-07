@@ -1,14 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { KeyRound, TrendingUp, Home, Landmark, ArrowRight, ShieldCheck, PhoneCall, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { KeyRound, TrendingUp, Home, Landmark, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Services() {
   return (
     <section id="services" className="py-24 bg-[#0e0d0c] border-t border-brand-bronze/20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-brand-gold font-semibold mb-3">
             <Sparkles size={14} className="text-brand-gold" />
             <span>Brokerage Capabilities</span>
@@ -19,12 +26,18 @@ export default function Services() {
           <p className="text-zinc-400 text-sm sm:text-base font-light mt-3">
             Four specialized real estate divisions engineered to guide private buyers, property sellers, corporate tenants, and institutional land investors.
           </p>
-        </div>
+        </motion.div>
 
         {/* 4 Distinct Visually Engaging Service Blocks */}
         <div className="space-y-12">
-          {/* Service 1: Buy a Home — Side by Side with Dream Home Asset */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 lg:p-10 shadow-2xl">
+          {/* Service 1: Buy a Home */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 lg:p-10 shadow-2xl"
+          >
             <div className="lg:col-span-7 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-gold font-mono mb-2">
@@ -61,7 +74,7 @@ export default function Services() {
               <div className="flex items-center gap-4 pt-4 border-t border-brand-bronze/20">
                 <a
                   href="#contact"
-                  className="px-5 py-2.5 bg-gradient-to-r from-brand-bronze to-brand-gold text-white text-xs uppercase tracking-widest font-semibold rounded-sm hover:from-brand-gold hover:to-brand-bronze transition-all"
+                  className="px-5 py-2.5 bg-gradient-to-r from-brand-bronze to-brand-gold text-white text-xs uppercase tracking-widest font-semibold rounded-sm hover:from-brand-gold hover:to-brand-bronze transition-all shadow-md"
                 >
                   Start Home Search
                 </a>
@@ -91,10 +104,16 @@ export default function Services() {
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Service 2: Sell a Property — Inverted Layout with Home Worth Asset */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 lg:p-10 shadow-2xl">
+          {/* Service 2: Sell a Property */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 lg:p-10 shadow-2xl"
+          >
             <div className="lg:col-span-5 relative aspect-[4/3] rounded-sm overflow-hidden border border-brand-bronze/40 shadow-xl group order-2 lg:order-1">
               <Image
                 src="/assets/marketing/home-worth.jpg"
@@ -146,7 +165,7 @@ export default function Services() {
               <div className="flex items-center gap-4 pt-4 border-t border-brand-bronze/20">
                 <a
                   href="#contact"
-                  className="px-5 py-2.5 bg-gradient-to-r from-brand-bronze to-brand-gold text-white text-xs uppercase tracking-widest font-semibold rounded-sm hover:from-brand-gold hover:to-brand-bronze transition-all"
+                  className="px-5 py-2.5 bg-gradient-to-r from-brand-bronze to-brand-gold text-white text-xs uppercase tracking-widest font-semibold rounded-sm hover:from-brand-gold hover:to-brand-bronze transition-all shadow-md"
                 >
                   Request Valuation
                 </a>
@@ -159,12 +178,19 @@ export default function Services() {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Service 3 & 4: Two Column Grid for Rentals & Land Investment */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Find a Rental */}
-            <div className="bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 flex flex-col justify-between shadow-2xl hover:border-brand-gold/60 transition-colors">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ y: -4, borderColor: 'rgba(218, 166, 116, 0.6)' }}
+              className="bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 flex flex-col justify-between shadow-2xl transition-all"
+            >
               <div>
                 <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-gold font-mono mb-2">
                   <Home size={14} className="text-brand-gold" />
@@ -192,10 +218,17 @@ export default function Services() {
                 <span>Visit OrlandoRentals.cc Portal</span>
                 <ArrowRight size={13} />
               </a>
-            </div>
+            </motion.div>
 
             {/* Land & Investment Opportunities */}
-            <div className="bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 flex flex-col justify-between shadow-2xl hover:border-brand-gold/60 transition-colors">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ y: -4, borderColor: 'rgba(218, 166, 116, 0.6)' }}
+              className="bg-[#141311] border border-brand-bronze/30 rounded-sm p-6 sm:p-8 flex flex-col justify-between shadow-2xl transition-all"
+            >
               <div>
                 <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-gold font-mono mb-2">
                   <Landmark size={14} className="text-brand-gold" />
@@ -221,7 +254,7 @@ export default function Services() {
                 <span>Consult With Our Land Brokers</span>
                 <ArrowRight size={13} />
               </a>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
